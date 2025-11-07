@@ -6,41 +6,29 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/07 10:40:54 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/07 13:56:13 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-int ft_str_null_end_new(char *buffer)
-{
-	int i;
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		i++;
-	}
-	return (i);
-}
-int ft_strlen(char *buffer)
+int ft_strlen_custom(char *buffer, int tmp)
 {
 	int i;
 
 	i = 0;
 	if (!buffer)
-	{
-		return (0);
-	}
-	while (buffer[i])
+		return 0;
+	while (buffer[i] && (tmp || buffer[i] != '\n'))
 	{
 		i++;
-	}
+	}	
 	return (i);
 }
-int ft_strchr(char *buffer, char sep)
+int ft_contains_char(char *buffer, char sep)
 {
 	int i;
 	i = 0;
-	while (buffer[i])
+	while (buffer && buffer[i])
 	{
 		if (buffer[i] == sep)
 		{
@@ -50,24 +38,17 @@ int ft_strchr(char *buffer, char sep)
 	}
 	return (0);
 }
-char *ft_strlcpy(char *buffer)
+char *ft_extract_line(char *buffer)
 {
 	int i = 0;
 	if (!buffer)
-	{
 		return NULL;
-	}
-	int size = ft_str_null_end_new(buffer);
+	int size = ft_strlen_custom(buffer,0);
 	if (*(buffer + size) == '\n')
-	{
 		size++;
-	}
 	char *res = malloc (sizeof (char) * (size + 1));
 	if (!res)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free (buffer),NULL);
 	while (i < size)
 	{
 		res[i] = buffer[i];
@@ -77,31 +58,23 @@ char *ft_strlcpy(char *buffer)
 	return (res);
 }
 
-char *ft_ta3dilline(char *buffer)
+char *ft_trim_buffer(char *buffer)
 {
-	if (!buffer)
-	{
-		return (NULL);
-	}
-	int size = ft_str_null_end_new(buffer);
+	int size = ft_strlen_custom(buffer,0);
 	char *line;
 	int sizeline;
 	int i = 0;
+	if (!buffer)
+		return (NULL);
 	
 	if (*(buffer + size) == '\n')
 		size++;
 	else
-	{
-		free(buffer);
-		return NULL;	
-	}
-	sizeline = ft_strlen(&buffer[size]);
+		return (free (buffer),NULL);	
+	sizeline = ft_strlen_custom(&buffer[size],1);
 	line = malloc (sizeof(char) * (sizeline + 1));
 	if (!line)
-	{
-		free(buffer);
-		return NULL;
-	}
+		return (free (buffer),NULL);
 	while (sizeline > i)
 	{
 		line[i] = buffer[size];
@@ -112,52 +85,49 @@ char *ft_ta3dilline(char *buffer)
 	free(buffer);
 	return (line);
 }
-void ft_strlcat(char *s1, char *s2, char *str)
+void ft_concat_strings(char *s1, char *s2, char *dest)
 {
-	int sizes1 = ft_strlen(s1);
-	int sizes2 = ft_strlen(s2);
+	int sizes1 = ft_strlen_custom(s1,1);
+	int sizes2 = ft_strlen_custom(s2,1);
 	int i = 0;
 	int c = 0;
 	while ((sizes1 + sizes2) > i)
 	{
 		if (sizes1 > i)
 		{
-			str[i] = s1[i];
+			dest[i] = s1[i];
 			i++;
 		}
 		else
-		{
-			str[i++] = s2[c++];
-		}
+			dest[i++] = s2[c++];
 	}
-	str[i] = '\0';
+	dest[i] = '\0';
 	free(s1);
 }
-char *ft_strjoin(char *buffer, char *line)
+char *ft_strjoin_custom(char *buffer, char *line)
 {
-	int sizebuffer = ft_strlen(buffer);
-	int sizeline = ft_strlen(line);
+	int sizebuffer = ft_strlen_custom(buffer,1);
+	int sizeline = ft_strlen_custom(line,1);
 	char *str;
 	str = malloc (sizeof(char) * (sizebuffer + sizeline + 1));
 	if (!str)
-	{
-		free (buffer);
-		return (NULL);
-	}
-	ft_strlcat(buffer,line,str);
+		return (free (buffer),NULL);
+	ft_concat_strings(buffer,line,str);
 	return (str);
 }
-char *ft_t3dil_and_read_line(int fd ,char *buffer)
+char *ft_read_until_newline(int fd ,char *buffer)
 {
-	char line[BUFFER_SIZE];
+	char tmp[BUFFER_SIZE];
+	int bytes_read;
 	
-	while ((read(fd , line,BUFFER_SIZE)) > 0)
+	while ((bytes_read = read (fd , tmp,BUFFER_SIZE)) > 0)
 	{
-		buffer = ft_strjoin(buffer,line);
-		if(ft_strchr(buffer,'\n'))
-		{
+		tmp[bytes_read] = '\0';
+		buffer = ft_strjoin_custom(buffer,tmp);
+		if (!buffer)
+			return (NULL);
+		if(ft_contains_char(buffer,'\n'))
 			return (buffer);
-		}
 	}
 	return (buffer);
 }
@@ -166,9 +136,9 @@ char *get_next_line(int fd)
 	static char *buffer;
 	char *tmp;
 	
-	buffer = ft_t3dil_and_read_line(fd,buffer);
-	tmp = ft_strlcpy(buffer);
-	buffer = ft_ta3dilline(buffer);	
+	buffer = ft_read_until_newline(fd,buffer);
+	tmp = ft_extract_line(buffer);
+	buffer = ft_trim_buffer(buffer);	
 
 	return (tmp);
 }
