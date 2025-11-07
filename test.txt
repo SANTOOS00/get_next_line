@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 78dce3a (get_next_linr_1337)
 ab\ncde\n
 gqergqergq
 qergqrgqer
@@ -11,4 +15,19 @@ wnf[iqjref]]]]]]]]]]]iqjrefwrf
 		webfibwrihfwrbfirbfrw fevqeovw[rfn	rwf
 		
 		
+<<<<<<< HEAD
 		[ownf[rfo]]]
+=======
+		[ownf[rfo]]]
+=======
+l bcuog	w pq erpiuqbr[]
+ qhcg	
+ o 	wefh-	uwr
+  oiwegu	wr
+  ow eicfi	wi	wrign	rg
+  rgg
+  wrign	erpiuqbrg	
+  rg	wrign	rgg
+	wrign	wefhrg	wrg
+>>>>>>> 39e5e24 (get_next_line)
+>>>>>>> 78dce3a (get_next_linr_1337)
