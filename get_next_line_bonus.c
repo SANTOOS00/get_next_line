@@ -6,81 +6,54 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:40 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/08 17:53:06 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/08 21:03:18 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-void ft_freeloop(char **buffer)
+void ft_free_loop(char **buffer, int fd)
 {
 	int i;
 
 	i = 0;
-	while (buffer[i])
+	while (i < fd)
 	{
-		ferr(buffer[i]);
+		if (buffer[i])
+		{
+			free(buffer[i]);
+		}
 		i++;
 	}
-	ferr(buffer);
+	free(buffer);
 }
-char **ft_add_arry(char **buffer,int fd,int file_9dam)
+char **ft_add_pointeur(char **buffer, int fd, int fd_9dm)
 {
 	char **buffer_jdid;
 	int i = 0;
-	buffer_jdid = malloc(sizeof (char **) * (fd + 1));
+
+	buffer_jdid = malloc (sizeof (char *) * fd - 1);
 	if (!buffer_jdid)
-	{
-		return (ft_ferrloop(buffer), 0);
-	}
-	while (file_9dam > i)
+		return (ft_free_loop(buffer,fd_9dm),NULL);
+	while (i < fd_9dm - 2)
 	{
 		buffer_jdid[i] = buffer[i];
+		i++;
 	}
-	buffer_jdid[fd] = 0;
-	return (buffer_jdid);
+	while (i < fd - 1)
+	{
+		buffer_jdid[i] = NULL;
+		i++;
+	}
+	return (free (buffer), buffer_jdid);
 }
-int ft_len(char *str , int tmp)
+int ft_seekchr(char *str, char c)
 {
 	int i;
-
 	i = 0;
-	while (str[i] && (tmp || str[i] != '\n'))
+	while (str[i])
 	{
-		i++;
-	}
-	return (i);
-}
-char	*ft_strjoin_custom(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	res = malloc(ft_len(s1, 1) + ft_len(s2, 1) + 1);
-	if (!res)
-		return (free(s1), NULL);
-	i = 0;
-	j = 0;
-	while (s1 && s1[i])
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		res[i++] = s2[j++];
-	res[i] = '\0';
-	return (free(s1), res);
-}
-
-int ft_strchr(char *buffer, char c)
-{
-	int i; 
-
-	i = 0;
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
+		if (str[i] == c)
 		{
 			return (1);
 		}
@@ -88,79 +61,116 @@ int ft_strchr(char *buffer, char c)
 	}
 	return (0);
 }
-char *ft_extract_line(char *buffer)
+int ft_len(char *str, int tmp)
 {
-	char *res;
-	int sizeline;
 	int i;
-	
+
 	i = 0;
-	if (!buffer)
-		return (NULL);
-	sizeline = ft_len(buffer , 0);
-	if (buffer[sizeline] == '\n')
-		sizeline++;
-	res = malloc (sizeof (char) * sizeline + 1);
-	if (!res)
-		return NULL;
-	while (sizeline  > i && buffer[i])
+	if (!str)
 	{
-		res[i] = buffer[i];
+		return(0);
+	}
+	while (str[i] && (tmp || str[i] != '\n'))
+	{
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	return (i);
 }
 
-char *ft_trim_buffer(char *buffer)
+char *ft_extract_line(char *buffer)
 {
-	char *res;
-	int i = 0;
-	int size = ft_len(buffer , 0);
-	int sizeline = ft_len(&buffer[size] , 1);
-	
-	res = malloc(sizeof (char) * (sizeline + 1));
-	if (!res)
+	char *str;
+	if (!buffer)
+		return (NULL);
+	int size = ft_len(buffer, 0);
+	str = malloc (sizeof(char) * (size + 1));
+	if (!str)
 		return (free(buffer),NULL);
-	while (size < sizeline)
+	int i = 0;
+	while (i < size)
 	{
-		res[i++] = buffer[size++];
+		str[i] = buffer[i];
+		i++;
 	}
-	res[i] = '\0';
-	ferr(buffer);
-	return (res);
+	str[i] = '\0';
+	return (str);	
 }
-char *get_next_line(int fd)
+
+char *ft_weldstr(char *s1, char *s2)
+{
+	char *str;
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	str = malloc (sizeof (char) * (ft_len(s1 , 1) + ft_len(s2 , 1) + 1));
+	if (!str)
+		return (free(s1),NULL);
+	while (s1 && s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (free (s1),str);
+}
+
+char *ft_slice_line(char *buffer)
+{
+	char *str;
+	int i = 0;
+	if(!buffer)
+		return (NULL);
+	int size = ft_len(buffer, 0);
+	if (buffer[size] == '\n')
+		size++;
+	else
+		return (free(buffer),NULL);
+	int sizebuffer = ft_len(&buffer[size],1);
+	str = malloc (sizeof(char) * (sizebuffer + 1));
+	if (!str)
+		return (free(buffer),NULL);
+	while (sizebuffer > i && buffer[size])
+		str[i++] = buffer[size++];  
+	str[i] = '\0';
+	return (free(buffer),str);
+}
+char *get_next_line_bonus(int fd)
 {
 	static char **buffer;
-	static int file_number = 0;
+	static int fd_9dim;
 	char *line;
-	int n;
 	char *buf;
-
-	line = malloc (BUFFER_SIZE + 1);
-	if(!line)
-		return (NULL);
-	if (file_number < fd)
+	int n;
+	
+	if (fd > fd_9dim)
 	{
-		buffer = ft_add_arry(buffer, fd - 2,file_number - 2);
-		file_number = fd;
+		buffer = ft_add_pointeur(buffer,fd, fd_9dim);
+		if (!buffer)
+			return (NULL);
+		fd_9dim = fd;
 	}
-	n = read(fd, line, BUFFER_SIZE);
+	line = malloc (BUFFER_SIZE + 1);
+	if (!line)
+		return (NULL);
+	n = read(fd,line, BUFFER_SIZE);
 	while (n && n != -1)
 	{
 		line[n] = '\0';
-		buffer[fd - 2] = ft_strjoine(line,&buffer[fd - 2]);
-		if (ft_strchr(line,'\n'))
+		buffer[fd - 2] = ft_weldstr(buffer[fd - 2], line);
+		if (!buffer[fd - 2] || ft_seekchr(line,'\n'))
 			break;
-		n = read(fd, line, BUFFER_SIZE);
+		read(fd, buffer, BUFFER_SIZE);
 	}
 	free(line);
-	if (!buffer)
-		return (NULL);
-	buf = ft_extract_line(&buffer[fd - 2]);
-	buffer[fd - 2] = ft_trim_buffer(&buffer[fd - 2]);
-	return (buf);	
+	if (!buffer[fd - 2])
+	{
+		return (ft_free_loop(buffer, fd),NULL);
+	}
+	buf  = ft_extract_line(buffer[fd - 2]);
+	buffer[fd - 2] = ft_slice_line(buffer[fd - 2]);
+	return (buf);
 }
-
-
