@@ -1,43 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 14:41:47 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/08 15:06:18 by moerrais         ###   ########.fr       */
+/*   Created: 2025/11/08 14:56:26 by moerrais          #+#    #+#             */
+/*   Updated: 2025/11/08 14:56:28 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "get_next_line.h"
-
-int	ft_len(char *buffer, int tmp)
-{
-	int	i;
-
-	i = 0;
-	if (!buffer)
-		return (0);
-	while (buffer[i] && (tmp || buffer[i] != '\n'))
-	{
-		i++;
-	}
-	return (i);
-}
-
-int	ft_contains_char(char *buffer, char sep)
-{
-	int	i;
-
-	i = 0;
-	while (buffer && buffer[i])
-	{
-		if (buffer[i] == sep)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}

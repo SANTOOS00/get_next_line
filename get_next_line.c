@@ -6,49 +6,27 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/07 14:38:59 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/08 15:02:03 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-int ft_len(char *buffer, int tmp)
+
+char	*ft_extract_line(char *buffer)
 {
-	int i;
+	int		i;
+	int		size;
+	char	*res;
 
 	i = 0;
 	if (!buffer)
-		return 0;
-	while (buffer[i] && (tmp || buffer[i] != '\n'))
-	{
-		i++;
-	}	
-	return (i);
-}
-int ft_contains_char(char *buffer, char sep)
-{
-	int i;
-	i = 0;
-	while (buffer && buffer[i])
-	{
-		if (buffer[i] == sep)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-char *ft_extract_line(char *buffer)
-{
-	int i = 0;
-	if (!buffer)
-		return NULL;
-	int size = ft_len(buffer,0);
-	if (*(buffer + size) == '\n')
+		return (NULL);
+	size = ft_len(buffer, 0);
+	if (buffer[size] == '\n')
 		size++;
-	char *res = malloc (sizeof (char) * (size + 1));
+	res = malloc(sizeof(char) * (size + 1));
 	if (!res)
-		return (free (buffer),NULL);
+		return (free(buffer), NULL);
 	while (i < size)
 	{
 		res[i] = buffer[i];
@@ -58,38 +36,36 @@ char *ft_extract_line(char *buffer)
 	return (res);
 }
 
-char *ft_trim_buffer(char *buffer)
+char	*ft_trim_buffer(char *buffer)
 {
-	int size;
-	char *line;
-	int sizeline;
-	int i = 0;
+	int		size;
+	char	*line;
+	int		sizeline;
+	int		i;
+
+	i = 0;
 	if (!buffer)
 		return (NULL);
-	size = ft_len(buffer,0);
+	size = ft_len(buffer, 0);
 	if (buffer[size] == '\n')
 		size++;
 	else
-		return (free (buffer),NULL);	
-	sizeline = ft_len(&buffer[size],1);
-	line = malloc (sizeof(char) * (sizeline + 1));
+		return (free(buffer), NULL);
+	sizeline = ft_len(&buffer[size], 1);
+	line = malloc(sizeof(char) * (sizeline + 1));
 	if (!line)
-		return (free(buffer),NULL);
-	while (sizeline > i)
-	{
-		line[i] = buffer[size];
-		i++;
-		size++;
-	}
+		return (free(buffer), NULL);
+	while (sizeline > i && buffer[size])
+		line[i++] = buffer[size++];
 	line[i] = '\0';
-	return (free(buffer) ,line);
+	return (free(buffer), line);
 }
 
-char *ft_strjoin_custom(char *s1, char *s2)
+char	*ft_strjoin_custom(char *s1, char *s2)
 {
-	int i;
-	int j;
-	char *res;
+	int		i;
+	int		j;
+	char	*res;
 
 	res = malloc(ft_len(s1, 1) + ft_len(s2, 1) + 1);
 	if (!res)
@@ -104,25 +80,31 @@ char *ft_strjoin_custom(char *s1, char *s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
-	return (free(s1),res);
+	return (free(s1), res);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char *buffer;
-	char tmp[BUFFER_SIZE];
-	int n;
-	char *buf;
-	
-	while ((n = read (fd , tmp,BUFFER_SIZE)) > 0)
+	static char	*buffer;
+	ssize_t		n;
+	char		*tmp;
+	char		*buf;
+
+	tmp = malloc(BUFFER_SIZE + 1);
+	if (!tmp)
+		return (NULL);
+	n = read(fd, tmp, BUFFER_SIZE);
+	while (n != -1 && n)
 	{
 		tmp[n] = '\0';
-		buffer = ft_strjoin_custom(buffer,tmp);
-		if(ft_contains_char(buffer,'\n'))
-			break;
+		buffer = ft_strjoin_custom(buffer, tmp);
+		if (ft_contains_char(buffer, '\n'))
+			break ;
+		n = read(fd, tmp, BUFFER_SIZE);
 	}
+	free(tmp);
 	if (!buffer)
-		return NULL;
+		return (NULL);
 	buf = ft_extract_line(buffer);
 	buffer = ft_trim_buffer(buffer);
 	return (buf);

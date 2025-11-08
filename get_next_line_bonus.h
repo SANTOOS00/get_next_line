@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 14:41:47 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/08 15:06:18 by moerrais         ###   ########.fr       */
+/*   Created: 2025/11/08 14:56:35 by moerrais          #+#    #+#             */
+/*   Updated: 2025/11/08 17:22:27 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int	ft_len(char *buffer, int tmp)
-{
-	int	i;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
-	i = 0;
-	if (!buffer)
-		return (0);
-	while (buffer[i] && (tmp || buffer[i] != '\n'))
-	{
-		i++;
-	}
-	return (i);
-}
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
 
-int	ft_contains_char(char *buffer, char sep)
-{
-	int	i;
+char		*get_next_line_bonus(int fd);
 
-	i = 0;
-	while (buffer && buffer[i])
-	{
-		if (buffer[i] == sep)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
+#endif

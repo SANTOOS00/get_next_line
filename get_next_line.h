@@ -6,33 +6,25 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 22:49:53 by moerrais          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/11/07 01:45:57 by moerrais         ###   ########.fr       */
-=======
-<<<<<<< HEAD
-/*   Updated: 2025/11/07 01:45:57 by moerrais         ###   ########.fr       */
-=======
-/*   Updated: 2025/11/07 10:23:27 by moerrais         ###   ########.fr       */
->>>>>>> 39e5e24 (get_next_line)
->>>>>>> 78dce3a (get_next_linr_1337)
+/*   Updated: 2025/11/08 15:20:33 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdlib.h>
-# include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4
+#  define BUFFER_SIZE 1024
 # endif
 
-char *get_next_line(int fd);
-		
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
 
+char		*get_next_line(int fd);
+int			ft_contains_char(char *buffer, char sep);
+int			ft_len(char *buffer, int tmp);
 #endif
