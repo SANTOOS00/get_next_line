@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 22:49:53 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/08 15:20:33 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/09 12:07:22 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 42
 # endif
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <limits.h>
 
 char		*get_next_line(int fd);
 int			ft_contains_char(char *buffer, char sep);
