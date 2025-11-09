@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/09 10:42:11 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:44:59 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_extract_line(char *buffer)
 {
-	int		i;
+	int		x;
 	int		size;
 	char	*res;
 
-	i = 0;
+	x = 0;
 	if (!buffer)
 		return (NULL);
 	size = ft_len(buffer, 0);
@@ -27,12 +27,12 @@ char	*ft_extract_line(char *buffer)
 	res = malloc(sizeof(char) * (size + 1));
 	if (!res)
 		return (free(buffer), NULL);
-	while (i < size)
+	while (x < size)
 	{
-		res[i] = buffer[i];
-		i++;
+		res[x] = buffer[x];
+		x++;
 	}
-	res[i] = '\0';
+	res[x] = '\0';
 	return (res);
 }
 
