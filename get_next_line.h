@@ -6,17 +6,17 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 22:49:53 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/09 12:07:22 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/10 04:17:34 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define MAX_FALE 1024
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>

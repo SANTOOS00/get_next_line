@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/09 13:44:59 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/10 04:19:14 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*buf;
 
+	if (fd >= MAX_FALE)
+		return (NULL);
 	tmp = malloc(BUFFER_SIZE + 1);
 	if (!tmp)
 		return (NULL);
