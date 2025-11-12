@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/10 04:19:14 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/12 01:53:26 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_extract_line(char *buffer)
 {
-	int		x;
+	int		i;
 	int		size;
 	char	*res;
 
-	x = 0;
+	i = 0;
 	if (!buffer)
 		return (NULL);
 	size = ft_len(buffer, 0);
@@ -27,16 +27,16 @@ char	*ft_extract_line(char *buffer)
 	res = malloc(sizeof(char) * (size + 1));
 	if (!res)
 		return (free(buffer), NULL);
-	while (x < size)
+	while (i < size)
 	{
-		res[x] = buffer[x];
-		x++;
+		res[i] = buffer[i];
+		i++;
 	}
-	res[x] = '\0';
+	res[i] = '\0';
 	return (res);
 }
 
-char	*ft_trim_buffer(char *buffer)
+char	*ft_slice_line(char *buffer)
 {
 	int		size;
 	char	*line;
@@ -61,7 +61,7 @@ char	*ft_trim_buffer(char *buffer)
 	return (free(buffer), line);
 }
 
-char	*ft_strjoin_custom(char *s1, char *s2)
+char	*ft_weldstr(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -80,34 +80,34 @@ char	*ft_strjoin_custom(char *s1, char *s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
-	return (free(s1), res);
+	if (s1)
+	{
+		free(s1);
+	}
+	return (res);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	ssize_t		n;
-	char		*tmp;
+	char		line[BUFFER_SIZE];
 	char		*buf;
 
-	if (fd >= MAX_FALE)
+	if (fd >= OPEN_MAX)
 		return (NULL);
-	tmp = malloc(BUFFER_SIZE + 1);
-	if (!tmp)
-		return (NULL);
-	n = read(fd, tmp, BUFFER_SIZE);
+	n = read(fd, line, BUFFER_SIZE);
 	while (n != -1 && n)
 	{
-		tmp[n] = '\0';
-		buffer = ft_strjoin_custom(buffer, tmp);
-		if (ft_contains_char(buffer, '\n'))
+		line[n] = '\0';
+		buffer = ft_weldstr(buffer, line);
+		if (ft_seekchr(buffer, '\n'))
 			break ;
-		n = read(fd, tmp, BUFFER_SIZE);
+		n = read(fd, line, BUFFER_SIZE);
 	}
-	free(tmp);
 	if (!buffer)
 		return (NULL);
 	buf = ft_extract_line(buffer);
-	buffer = ft_trim_buffer(buffer);
+	buffer = ft_slice_line(buffer);
 	return (buf);
 }

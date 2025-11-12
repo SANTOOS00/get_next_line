@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:41:47 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/08 15:06:18 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/11 21:04:59 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_len(char *buffer, int tmp)
 	return (i);
 }
 
-int	ft_contains_char(char *buffer, char sep)
+int	ft_seekchr(char *buffer, char sep)
 {
 	int	i;
 

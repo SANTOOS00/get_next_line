@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:40 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/10 04:15:17 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/12 01:59:53 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ char	*ft_weldstr(char *s1, char *s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	return (free(s1), str);
+	if (!s1)
+		free(s1);
+	return (str);
 }
 
 char	*ft_slice_line(char *buffer)
@@ -97,14 +99,13 @@ char	*ft_slice_line(char *buffer)
 
 char	*get_next_line_bonus(int fd)
 {
-	int			n;
+	ssize_t		n;
 	static char	*buffer[1024];
-	char		*line;
+	char		line[BUFFER_SIZE];
 	char		*buf;
 
-	if (fd > MAX_FILE)
+	if (fd >= OPEN_MAX)
 		return (NULL);
-	line = malloc(BUFFER_SIZE + 1);
 	if (!line)
 		return (NULL);
 	n = read(fd, line, BUFFER_SIZE);
@@ -112,11 +113,10 @@ char	*get_next_line_bonus(int fd)
 	{
 		line[n] = '\0';
 		buffer[fd] = ft_weldstr(buffer[fd], line);
-		if (!buffer[fd] || ft_seekchr(line, '\n'))
+		if (ft_seekchr(buffer[fd], '\n'))
 			break ;
 		n = read(fd, buffer, BUFFER_SIZE);
 	}
-	free(line);
 	if (!buffer[fd])
 		return (NULL);
 	buf = ft_extract_line(buffer[fd]);
