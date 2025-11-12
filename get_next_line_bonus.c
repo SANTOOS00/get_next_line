@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:40 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/12 01:59:53 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/12 09:44:49 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*get_next_line_bonus(int fd)
 {
 	ssize_t		n;
 	static char	*buffer[1024];
-	char		line[BUFFER_SIZE];
+	char		line[BUFFER_SIZE + 1];
 	char		*buf;
 
 	if (fd >= OPEN_MAX)
