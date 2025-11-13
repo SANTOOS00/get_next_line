@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:40 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/12 09:44:49 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/13 04:14:54 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_weldstr(char *s1, char *s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	if (!s1)
+	if (s1)
 		free(s1);
 	return (str);
 }
@@ -106,8 +106,6 @@ char	*get_next_line_bonus(int fd)
 
 	if (fd >= OPEN_MAX)
 		return (NULL);
-	if (!line)
-		return (NULL);
 	n = read(fd, line, BUFFER_SIZE);
 	while (n && n != -1)
 	{
@@ -115,7 +113,7 @@ char	*get_next_line_bonus(int fd)
 		buffer[fd] = ft_weldstr(buffer[fd], line);
 		if (ft_seekchr(buffer[fd], '\n'))
 			break ;
-		n = read(fd, buffer, BUFFER_SIZE);
+		n = read(fd, line, BUFFER_SIZE);
 	}
 	if (!buffer[fd])
 		return (NULL);
