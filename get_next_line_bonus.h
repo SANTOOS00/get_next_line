@@ -25,7 +25,7 @@
 # include <unistd.h>
 # include <limits.h>
 
-char		*get_next_line_bonus(int fd);
+char		*get_next_line(int fd);
 void		ft_free_loop(char **buffer, int fd);
 int			ft_seekchr(char *str, char c);
 #endif

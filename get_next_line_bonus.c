@@ -97,7 +97,7 @@ char	*ft_slice_line(char *buffer)
 	return (free(buffer), str);
 }
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	ssize_t		n;
 	static char	*buffer[1024];
