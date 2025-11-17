@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:35 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/09 19:01:31 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/15 12:07:13 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <limits.h>
 
 char		*get_next_line(int fd);
 void		ft_free_loop(char **buffer, int fd);

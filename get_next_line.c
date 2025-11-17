@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:09:13 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/12 09:44:33 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/16 20:06:48 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ char	*ft_slice_line(char *buffer)
 	sizeline = ft_len(&buffer[size], 1);
 	line = malloc(sizeof(char) * (sizeline + 1));
 	if (!line)
+	{
+		printf("3\n");
 		return (free(buffer), NULL);
+	}
 	while (sizeline > i && buffer[size])
 		line[i++] = buffer[size++];
 	line[i] = '\0';
@@ -69,7 +72,12 @@ char	*ft_weldstr(char *s1, char *s2)
 
 	res = malloc(ft_len(s1, 1) + ft_len(s2, 1) + 1);
 	if (!res)
-		return (free(s1), NULL);
+	{
+		if (s2)
+			return (free(s1), NULL);
+		else
+			return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -81,18 +89,16 @@ char	*ft_weldstr(char *s1, char *s2)
 		res[i++] = s2[j++];
 	res[i] = '\0';
 	if (s1)
-	{
 		free(s1);
-	}
 	return (res);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
-	ssize_t		n;
-	char		line[BUFFER_SIZE + 1];
-	char		*buf;
+	static char *buffer;
+	ssize_t n;
+	char line[BUFFER_SIZE + 1];
+	char *buf;
 
 	if (fd >= OPEN_MAX)
 		return (NULL);
@@ -101,6 +107,8 @@ char	*get_next_line(int fd)
 	{
 		line[n] = '\0';
 		buffer = ft_weldstr(buffer, line);
+		if (!buffer)
+			return (NULL);
 		if (ft_seekchr(buffer, '\n'))
 			break ;
 		n = read(fd, line, BUFFER_SIZE);
@@ -108,6 +116,10 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	buf = ft_extract_line(buffer);
+	if (!buf)
+		return (NULL);
 	buffer = ft_slice_line(buffer);
+	if (!buffer)
+		return (NULL);
 	return (buf);
 }

@@ -6,7 +6,7 @@
 /*   By: moerrais <moerrais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 14:56:40 by moerrais          #+#    #+#             */
-/*   Updated: 2025/11/13 04:14:54 by moerrais         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:54:48 by moerrais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ char	*ft_weldstr(char *s1, char *s2)
 	i = 0;
 	str = malloc(sizeof(char) * (ft_len(s1, 1) + ft_len(s2, 1) + 1));
 	if (!str)
-		return (free(s1), NULL);
+	{
+		if (s1)
+			return (free(s1), NULL);
+		else
+			return (NULL);
+	}
 	while (s1 && s1[i])
 	{
 		str[i] = s1[i];
@@ -111,6 +116,8 @@ char	*get_next_line(int fd)
 	{
 		line[n] = '\0';
 		buffer[fd] = ft_weldstr(buffer[fd], line);
+		if (buffer[fd])
+			return (NULL);
 		if (ft_seekchr(buffer[fd], '\n'))
 			break ;
 		n = read(fd, line, BUFFER_SIZE);
@@ -118,6 +125,10 @@ char	*get_next_line(int fd)
 	if (!buffer[fd])
 		return (NULL);
 	buf = ft_extract_line(buffer[fd]);
+	if (buf[fd])
+		return (NULL);
 	buffer[fd] = ft_slice_line(buffer[fd]);
+	if (buffer[fd])
+		return (NULL);
 	return (buf);
 }
